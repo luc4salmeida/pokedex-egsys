@@ -11,10 +11,8 @@ class SplashScreenView extends WidgetView<SplashScreen, SplashScreenController> 
     return Scaffold(
       body: Stack(
         children: [
-          Expanded(
-            child: Container(
-              color: Color(0xFFFFdc221c),
-            ),
+          Container(
+            color: Color(0xFFFFdc221c),
           ),
           Center(
             child: Image.asset('assets/loading.gif')
