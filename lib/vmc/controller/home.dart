@@ -30,13 +30,13 @@ class HomeScreenController extends State<HomeScreen> {
   bool _searchingForPokemon;
   bool get isSearchingForPokemon => _searchingForPokemon;
 
+  List<PokemonData> _cachedPokemons;
+
   List<String> _pokemonsName;
   UnmodifiableListView<String> get pokemonsName =>  UnmodifiableListView(_pokemonsName);
 
   ScrollController _scrollController;
   ScrollController get scrollController => _scrollController;
-
-  final AsyncMemoizer _memoizer = AsyncMemoizer();
 
   @override
   void initState() {
@@ -48,7 +48,9 @@ class HomeScreenController extends State<HomeScreen> {
     _fetchAmmount = 3;
 
     _database = Database();
+
     _pokemonsName = List();
+    _cachedPokemons = List();
 
     _searchingForPokemon = false;
 
@@ -63,7 +65,10 @@ class HomeScreenController extends State<HomeScreen> {
 
   @override
   dispose() {
+    
     _scrollController.dispose();
+    _cachedPokemons.clear();
+
     super.dispose();
   }
 
@@ -94,7 +99,6 @@ class HomeScreenController extends State<HomeScreen> {
     int id = rng.nextInt(898);
   
     try {
-      
       _changeSearchingForPokemonStatus(true);
       PokemonData pokemonData = await _database.getPokemonById(id);
       _changeSearchingForPokemonStatus(false);
@@ -102,19 +106,15 @@ class HomeScreenController extends State<HomeScreen> {
       Navigator.push(context, MaterialPageRoute(builder: (context) => PokemonScreen(
         data: pokemonData
       )));
-
     } 
     on IOException catch(ex) {
       _changeSearchingForPokemonStatus(false);
       _showToast(ex.message);
     }
-    
   }
 
   Future<void> onSearchPressed() async {
-
     FocusScope.of(context).requestFocus(new FocusNode());
-
     showSearch(
       context: context, delegate: SearchPokemonDelegate(
         _database
@@ -129,7 +129,14 @@ class HomeScreenController extends State<HomeScreen> {
   }
 
   Future<PokemonData> getPokemonName(String name) async {
-    return _database.getPokemonByName(name);
+    if(_cachedPokemons.where((element) => element.name == name).isNotEmpty) {
+      return _cachedPokemons.firstWhere((element) => element.name == name);
+    }
+
+    PokemonData data = await  _database.getPokemonByName(name);
+    _cachedPokemons.add(data);
+
+    return data;
   }
 
   _showToast(String message) {
