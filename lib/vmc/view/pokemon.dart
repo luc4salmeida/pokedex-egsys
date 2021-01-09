@@ -65,13 +65,13 @@ class PokemonScreenView
       children: [
         Column(
           children: [
-            Text(widget.data.weight.toString() + " KG", style: MyTypography.BIG.get().copyWith(color: Colors.white)),
+            Text((widget.data.weight * 0.1).toDouble().toStringAsFixed(1) + " KG", style: MyTypography.BIG.get().copyWith(color: Colors.white)),
             Text("Peso", style: MyTypography.MEDIUM.get().copyWith(color: Colors.grey))
           ],
         ),
         Column(
           children: [
-            Text(widget.data.height.toString() + " M", style: MyTypography.BIG.get().copyWith(color: Colors.white)),
+            Text((widget.data.height * 0.1).toDouble().toStringAsFixed(1) + " M", style: MyTypography.BIG.get().copyWith(color: Colors.white)),
             Text("Altura", style: MyTypography.MEDIUM.get().copyWith(color: Colors.grey))
           ],
         ),
