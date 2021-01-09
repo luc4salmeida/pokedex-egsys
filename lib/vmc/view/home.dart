@@ -93,6 +93,27 @@ class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
   }
 
   Widget _buildPokemonList(BuildContext context) {
+    return ValueListenableBuilder<List<String>>(
+      valueListenable: state.model.pokemonNames, 
+      builder: (context, pokemonNames, child) => SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => index < pokemonNames.length ? FutureBuilder<PokemonData>(
+            future: state.model.getPokemonByName(pokemonNames[index]),
+            builder: (context, snap) {
+              if(snap.hasData) return GestureDetector(
+                onTap: () => state.onPokemonPressed(snap.data),
+                child: PokemonListTile(data: snap.data)
+              );
+              return PokemonLoadingListTile();
+            },
+          ) : _buildLoadingBottom(context),
+          childCount: pokemonNames.length + 1,
+        )
+      )
+    );
+  }
+
+  /*Widget _buildPokemonList(BuildContext context) {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) => index < state.pokemonsName.length ? FutureBuilder<PokemonData>(
@@ -108,7 +129,7 @@ class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
         childCount: state.pokemonsName.length + 1,
       )
     );
-  }
+  }*/
 
   Widget _buildLoadingBottom(BuildContext context) {
     return Center(
