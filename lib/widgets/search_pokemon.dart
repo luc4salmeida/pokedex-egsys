@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex_egsys/core/io/idatabase.dart';
+
 import 'package:pokedex_egsys/core/search_provider.dart';
 import 'package:pokedex_egsys/data/pokemon.dart';
 import 'package:pokedex_egsys/style.dart';
@@ -28,6 +28,8 @@ const List<String> pokemonTypes = [
   "fairy"
 ];
 
+
+// NECESSÁRIO ALTERAÇÃO NO CÓDIGO FONTE material/search.dart para mantainState => true
 class SearchPokemonDelegate extends SearchDelegate
 {
   SearchProvider _searchProvider;
@@ -39,6 +41,7 @@ class SearchPokemonDelegate extends SearchDelegate
 
   @override
   TextStyle get searchFieldStyle => MyTypography.MEDIUM.get();
+
 
   @override
   List<Widget> buildActions(BuildContext context) {

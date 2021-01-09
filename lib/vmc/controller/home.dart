@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 import 'package:provider/provider.dart';
 
-import 'package:pokedex_egsys/core/io/database.dart';
 import 'package:pokedex_egsys/core/io/exception.dart';
 import 'package:pokedex_egsys/data/pokemon.dart';
 import 'package:pokedex_egsys/vmc/controller/pokemon.dart';
