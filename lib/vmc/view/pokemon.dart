@@ -121,7 +121,7 @@ class PokemonScreenView
                 ),
                 Container(
                   alignment: Alignment.center,
-                  width: value * size.width / max,
+                  width: value * (size.width - 66) / max,
                   height: 20.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
