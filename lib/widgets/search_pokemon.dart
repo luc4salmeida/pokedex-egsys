@@ -63,6 +63,7 @@ class SearchPokemonDelegate extends SearchDelegate
     }
 
     query = query.toLowerCase();
+    query.replaceAll(' ', '');
     
     if(pokemonTypes.contains(query)){ 
       return FutureBuilder<List<String>>(
