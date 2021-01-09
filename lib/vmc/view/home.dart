@@ -57,12 +57,14 @@ class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
 
   Widget _buildSearchBar(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Padding(
+      child: Container(
         padding: const EdgeInsets.all(8.0),
+        height: 70.0,
         child: TextField(
           decoration: InputDecoration(
             border: OutlineInputBorder(),
-            labelText: "Digite aqui o nome ou tipo do pokémon!"
+            labelText: "Digite o nome ou tipo do pokémon...",
+            labelStyle: TextStyle(color: Colors.grey[300], fontSize: 14)
           ),
           readOnly: true,
           onTap: state.onSearchPressed,
@@ -73,12 +75,16 @@ class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
 
   Widget _buildRandomButtonPokemon(BuildContext context) {
     return SliverToBoxAdapter(
-      child: RaisedButton.icon(
-        onPressed: state.onRandomButtonPressed, 
-        icon: Icon(Icons.explore), 
-        label: Text("Descubra um Pokémon!"),
-        color: Colors.redAccent,
-        textColor: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: RaisedButton.icon(
+          onPressed: state.onRandomButtonPressed, 
+          icon: Icon(Icons.explore), 
+          label: Text("Descubra um Pokémon!"),
+          color: Colors.redAccent,
+          textColor: Colors.white,
+          elevation: 6,
+        ),
       ),
     );
   }

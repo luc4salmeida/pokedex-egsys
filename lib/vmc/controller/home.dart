@@ -102,7 +102,14 @@ class HomeScreenController extends State<HomeScreen> {
   }
 
   _showToast(String message) {
-    Toast.show(message, context);
+    Toast.show(
+      message, 
+      context,
+      textColor: Colors.white,
+      duration: 2,
+      backgroundColor: Colors.red,
+      gravity: Toast.CENTER
+    );
   }
 
   _changeSearchingForPokemonStatus(bool status) {
