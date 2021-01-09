@@ -17,10 +17,6 @@ class PokemonScreenController extends State<PokemonScreen> {
   @override
   void initState() {
     super.initState();
-
-    widget.data.types.forEach((element) {
-      print(element);
-    });
   }
 
   onBackPressed() {
