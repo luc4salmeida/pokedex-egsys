@@ -17,11 +17,14 @@ class PokemonListTile extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          leading: Image.network(
-            data.imageUrl,
-            width: 100.0,
-            height: 125.0,
-            fit: BoxFit.cover,
+          leading: Hero(
+            tag: data.name,
+            child: Image.network(
+              data.imageUrl,
+              width: 100.0,
+              height: 125.0,
+              fit: BoxFit.cover,
+            ),
           ),
           title: Text(data.name.firstCaps, style: MyTypography.MEDIUM.get()),
         ),

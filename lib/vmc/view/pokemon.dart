@@ -118,11 +118,14 @@ class PokemonScreenView
   }
 
   Widget _buildPokemonImage(BuildContext context) {
-    return Image.network(
-      widget.data.imageUrl,
-      width: 200.0,
-      height: 200.0,
-      fit: BoxFit.cover,
+    return Hero(
+      tag: widget.data.name,
+      child: Image.network(
+        widget.data.imageUrl,
+        width: 200.0,
+        height: 200.0,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }
