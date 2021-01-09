@@ -12,28 +12,29 @@ class PokemonScreenView
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildBody(context),
+      body: SingleChildScrollView(child: _buildBody(context)),
       backgroundColor: Color(0xFFFF2b292c)
     );
   }
 
   Widget _buildBody(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         _buildTopContent(context),
         SizedBox(height: 20.0),
-        Expanded(
-          child: Container(
-            child: Column(
-              children: [
-                Text(widget.data.name.firstCaps, style: MyTypography.BIG.get().copyWith(color: Colors.white)),
-                SizedBox(height: 20.0),
-                _buildPokemonTypes(context),
-                SizedBox(height: 20.0),
-                _buildPokemonWeightAndHeight(context)
-              ],
-            )
-          )
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(widget.data.name.firstCaps, style: MyTypography.BIG.get().copyWith(color: Colors.white)),
+            SizedBox(height: 20.0),
+            _buildPokemonTypes(context),
+            SizedBox(height: 20.0),
+            _buildPokemonWeightAndHeight(context),
+            SizedBox(height: 20.0),
+            _buildStatsColumn(context)
+ 
+          ],
         )
       ],
     );
@@ -78,8 +79,67 @@ class PokemonScreenView
     );
   }
 
+  Widget _buildStatsColumn(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Text("Estatísticas Básicas", style: MyTypography.BIG.get().copyWith(color: Colors.white)),
+          _buildStatRow(context, "HP", widget.data.stats[0], 255, Colors.red),
+          _buildStatRow(context, "ATK", widget.data.stats[1], 190, Colors.blue),
+          _buildStatRow(context, "DEF", widget.data.stats[2], 230, Colors.orange),
+          _buildStatRow(context, "SA", widget.data.stats[3], 194, Colors.pink),
+          _buildStatRow(context, "SD", widget.data.stats[4], 230, Colors.green),
+          _buildStatRow(context, "SPD", widget.data.stats[5], 180, Colors.purple),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatRow(BuildContext context, String name, int value, int max, Color color) {
+    final size = MediaQuery.of(context).size;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 40.0,
+            child: Text(name, style: MyTypography.MEDIUM.get().copyWith(color: Colors.white))
+          ),
+          SizedBox(width: 15.0),
+          Expanded(
+            child: Stack(
+              children: [
+                Container(
+                  width: size.width,
+                  height: 20.0,
+                  
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white,
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  width: value * size.width / max,
+                  height: 20.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: color,
+                  ),
+                  child: Text(value.toString() + "/" + max.toString(), style: TextStyle(color: Colors.white))
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildAppBar(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 25.0),
