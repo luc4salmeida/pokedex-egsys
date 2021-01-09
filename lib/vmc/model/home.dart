@@ -1,9 +1,9 @@
 import 'dart:core';
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-import 'package:pokedex_egsys/core/io/idatabase.dart';
+import 'package:pokedex_egsys/core/search_provider.dart';
 import 'package:pokedex_egsys/data/pokemon.dart';
 
 const INITIAL_FETCH_AMMOUNT = 10;
@@ -11,16 +11,16 @@ const FETCH_AMMOUNT = 5;
 
 class HomeModel
 {
-  DataBaseInterface _dataBaseInterface;
+  SearchProvider _searchProvider;
 
   int _currentOffset;
   ValueNotifier<List<String>> pokemonNames;
 
   List<PokemonData> _cachedPokemons;
 
-  HomeModel({@required DataBaseInterface dataBase}) {
+  HomeModel({@required SearchProvider provider}) {
 
-    _dataBaseInterface = dataBase;
+    _searchProvider = provider;
     pokemonNames = ValueNotifier(List());
     _cachedPokemons = List();
 
@@ -36,7 +36,7 @@ class HomeModel
 
     int fetchAmmount = initial ? INITIAL_FETCH_AMMOUNT : FETCH_AMMOUNT;
 
-    final request = await _dataBaseInterface.getPokemonsNameByRange(_currentOffset, fetchAmmount);
+    final request = await _searchProvider.getPokemonsByRange(_currentOffset, fetchAmmount);
     request.insertAll(0, pokemonNames.value);
 
     pokemonNames.value = request;
@@ -45,19 +45,10 @@ class HomeModel
   }
 
   Future<PokemonData> getPokemonByName(String name) async {
-    if(_cachedPokemons.where((element) => element.name == name).isNotEmpty) {
-      return _cachedPokemons.firstWhere((element) => element.name == name);
-    }
-
-    PokemonData data = await  _dataBaseInterface.getPokemonByName(name);
-    _cachedPokemons.add(data);
-
-    return data;
+    return await _searchProvider.getPokemonByName(name);
   }
 
   Future<PokemonData> getRandomPokemon() async {
-    Random rng = Random();
-    int id = rng.nextInt(898);
-    return await _dataBaseInterface.getPokemonById(id);
+    return await _searchProvider.getRandomPokemon();
   }
 }

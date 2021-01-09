@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_egsys/core/io/idatabase.dart';
+import 'package:pokedex_egsys/core/search_provider.dart';
 import 'package:pokedex_egsys/data/pokemon.dart';
 import 'package:pokedex_egsys/style.dart';
 import 'package:pokedex_egsys/vmc/controller/pokemon.dart';
@@ -29,9 +30,9 @@ const List<String> pokemonTypes = [
 
 class SearchPokemonDelegate extends SearchDelegate
 {
-  final DataBaseInterface _dataBaseInterface;
+  SearchProvider _searchProvider;
 
-  SearchPokemonDelegate(this._dataBaseInterface);
+  SearchPokemonDelegate(this._searchProvider);
 
   @override
   String get searchFieldLabel => "Nome ou tipo do pokémon";
@@ -67,14 +68,14 @@ class SearchPokemonDelegate extends SearchDelegate
     
     if(pokemonTypes.contains(query)){ 
       return FutureBuilder<List<String>>(
-      future: _dataBaseInterface.getPokemonsNameByType(query),
+      future: _searchProvider.getPokemonsByType(query),
       builder: (context, namesSnap) {
         if(namesSnap.hasError) return _buildError(context);
         if(!namesSnap.hasData)return _buildLoading(context);
         return ListView.builder(
           itemCount: namesSnap.data.length,
           itemBuilder: (context, index) => FutureBuilder<PokemonData>(
-            future: _dataBaseInterface.getPokemonByName(namesSnap.data[index]),
+            future: _searchProvider.getPokemonByName(namesSnap.data[index]),
             builder: (context, pokeSnap) {
               if(pokeSnap.hasError) return _buildError(context);
               if(!pokeSnap.hasData) return PokemonLoadingListTile();
@@ -90,7 +91,7 @@ class SearchPokemonDelegate extends SearchDelegate
     }
 
     return FutureBuilder<PokemonData>(
-      future: _dataBaseInterface.getPokemonByName(query),
+      future: _searchProvider.getPokemonByName(query),
       builder: (context, snap) {
         if(snap.hasError) return _buildError(context);
         if(!snap.hasData)return _buildLoading(context);

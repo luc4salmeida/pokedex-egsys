@@ -1,12 +1,16 @@
-import 'package:pokedex_egsys/vmc/model/home.dart';
-import 'package:toast/toast.dart';
+
+
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
+import 'package:provider/provider.dart';
 
 import 'package:pokedex_egsys/core/io/database.dart';
 import 'package:pokedex_egsys/core/io/exception.dart';
 import 'package:pokedex_egsys/data/pokemon.dart';
 import 'package:pokedex_egsys/vmc/controller/pokemon.dart';
 import 'package:pokedex_egsys/widgets/search_pokemon.dart';
+import 'package:pokedex_egsys/core/search_provider.dart';
+import 'package:pokedex_egsys/vmc/model/home.dart';
 
 import '../view/home.dart';
 
@@ -32,10 +36,9 @@ class HomeScreenController extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    model = HomeModel(dataBase: Database());
-    _searchingForPokemon = false;
-
+    model = HomeModel(provider: context.read<SearchProvider>());
     _scrollController = ScrollController();
+    _searchingForPokemon = false;
 
     _scrollController.addListener(() {
       _handleScrollEvents();
@@ -46,10 +49,8 @@ class HomeScreenController extends State<HomeScreen> {
 
   @override
   dispose() {
-    
     model.dispose();
     _scrollController.dispose();
-
     super.dispose();
   }
 
@@ -71,7 +72,7 @@ class HomeScreenController extends State<HomeScreen> {
     FocusScope.of(context).requestFocus(new FocusNode());
     showSearch(
       context: context, delegate: SearchPokemonDelegate(
-        Database()
+        context.read<SearchProvider>()
       ),
     );
   }
