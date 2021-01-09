@@ -78,7 +78,7 @@ class Database implements DataBaseInterface
       return results.map<String>((e) => e['name']).toList();
     } 
     catch (ex) {
-      throw IOException(message: "Algo de errado aconteceu@!");
+      throw IOException(message: "Algo de errado aconteceu");
     }
   }
   

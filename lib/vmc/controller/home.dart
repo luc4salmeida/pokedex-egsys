@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:math';
 
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex_egsys/core/io/database.dart';
 import 'package:pokedex_egsys/core/io/exception.dart';
@@ -22,6 +23,8 @@ class HomeScreenController extends State<HomeScreen> {
 
   Database _database;
   int _offset;
+
+  int _initialFetch;
   int _fetchAmmount;
 
   bool _searchingForPokemon;
@@ -33,12 +36,16 @@ class HomeScreenController extends State<HomeScreen> {
   ScrollController _scrollController;
   ScrollController get scrollController => _scrollController;
 
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
+
   @override
   void initState() {
     super.initState();
 
     _offset = 0;
-    _fetchAmmount = 10;
+
+    _initialFetch = 10;
+    _fetchAmmount = 3;
 
     _database = Database();
     _pokemonsName = List();
@@ -51,7 +58,7 @@ class HomeScreenController extends State<HomeScreen> {
       _handleScrollEvents();
     });
 
-    _fetch();
+    _fetch(_initialFetch);
   }
 
   @override
@@ -60,10 +67,10 @@ class HomeScreenController extends State<HomeScreen> {
     super.dispose();
   }
 
-  _fetch() async {
+  _fetch(int ammount) async {
     try {
-      List<String> names = await _database.getPokemonsNameByRange(_offset, _fetchAmmount);
-      _offset += _fetchAmmount;
+      List<String> names = await _database.getPokemonsNameByRange(_offset, ammount);
+      _offset += ammount;
 
       setState(() {
         _pokemonsName.addAll(names);
@@ -77,7 +84,7 @@ class HomeScreenController extends State<HomeScreen> {
 
   _handleScrollEvents() {
     if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-      _fetch();
+      _fetch(_fetchAmmount);
     }
   }
 
@@ -98,6 +105,7 @@ class HomeScreenController extends State<HomeScreen> {
 
     } 
     on IOException catch(ex) {
+      _changeSearchingForPokemonStatus(false);
       _showToast(ex.message);
     }
     
