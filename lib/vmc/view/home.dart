@@ -119,24 +119,6 @@ class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
     );
   }
 
-  /*Widget _buildPokemonList(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => index < state.pokemonsName.length ? FutureBuilder<PokemonData>(
-          future: state.getPokemonName(state.pokemonsName[index]),
-          builder: (context, snap) {
-            if(snap.hasData) return GestureDetector(
-              onTap: () => state.onPokemonPressed(snap.data),
-              child: PokemonListTile(data: snap.data)
-            );
-            return PokemonLoadingListTile();
-          },
-        ) : _buildLoadingBottom(context),
-        childCount: state.pokemonsName.length + 1,
-      )
-    );
-  }*/
-
   Widget _buildLoadingBottom(BuildContext context) {
     return Center(
       child: Padding(
@@ -147,13 +129,20 @@ class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
 
   Widget _buildSearchingForPokemon(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CircularProgressIndicator(),
-          SizedBox(height: 10.0),
-          Text("Procurando um pokémon legal pra você ;)", style: MyTypography.MEDIUM.get().copyWith(color: Colors.black54))
-        ],
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0)
+        ),
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(height: 10.0),
+            Text("Procurando um pokémon legal pra você ;)", style: MyTypography.MEDIUM.get().copyWith(color: Colors.grey))
+          ],
+        ),
       ),
     );
   }
