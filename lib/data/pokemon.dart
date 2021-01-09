@@ -10,10 +10,13 @@ class PokemonData
 
   String imageUrl;
 
+  List<String> types;
+
 
   PokemonData.fromJson(String body) {
 
     Map<String, dynamic> data = jsonDecode(body);
+    types = List();
 
     id = data['id'];
     name = data['name'];
@@ -22,6 +25,13 @@ class PokemonData
 
     if(data['sprites'] != null ){
       imageUrl = data['sprites']['front_default'];
+    }
+
+    if(data['types'] != null) {
+      List<dynamic> rawTypes = data['types'];
+      rawTypes.forEach((element) {
+        types.add(element['type']['name']);
+      });
     }
   }
 }
