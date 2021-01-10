@@ -13,8 +13,6 @@ class SearchProvider
 
   List<String> _suggestionList;
   UnmodifiableListView<String> get suggestionList => UnmodifiableListView(_suggestionList);
-
-  final TextEditingController controller = TextEditingController();
   
   SearchProvider({@required DataBaseInterface database}) {
 
