@@ -15,7 +15,8 @@ class Database implements DataBaseInterface
   @override
   Future<PokemonData> getPokemonByName(String name) async {
     try {
-      final request = await http.get(apiBase + "/pokemon/$name");
+      final request = await http.get(apiBase + "pokemon/$name");
+    
       if(request.statusCode == 200) {
         return PokemonData.fromJson(request.body);
       } 
@@ -31,7 +32,7 @@ class Database implements DataBaseInterface
   @override
   Future<List<String>> getPokemonsNameByType(String type) async {
     try {
-      final request = await http.get(apiBase + "/type/$type");
+      final request = await http.get(apiBase + "type/$type");
 
       if(request.statusCode != 200) {
         throw IOException(message: "Can't get pokemons by type $type");
@@ -50,7 +51,7 @@ class Database implements DataBaseInterface
   @override
   Future<PokemonData> getPokemonById(int id) async {
     try {
-      http.Response request = await http.get(apiBase + "/pokemon/$id");
+      http.Response request = await http.get(apiBase + "pokemon/$id");
       if(request.statusCode == 200) {
         return PokemonData.fromJson(request.body);
       } 
