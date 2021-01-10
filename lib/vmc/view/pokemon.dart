@@ -31,7 +31,7 @@ class PokemonScreenView
             _buildPokemonTypes(context),
             SizedBox(height: 20.0),
             _buildPokemonWeightAndHeight(context),
-            SizedBox(height: 20.0),
+            SizedBox(height: 10.0),
             _buildStatsColumn(context)
  
           ],

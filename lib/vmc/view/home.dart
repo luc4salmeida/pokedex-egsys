@@ -62,9 +62,12 @@ class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
         height: 70.0,
         child: TextField(
           decoration: InputDecoration(
-            border: OutlineInputBorder(),
+            prefixIcon: Icon(Icons.search),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0)
+            ),
             labelText: "Digite o nome ou tipo do pokémon...",
-            labelStyle: TextStyle(color: Colors.grey[300], fontSize: 14)
+            labelStyle: TextStyle(color: Colors.grey[300], fontSize: 14),
           ),
           readOnly: true,
           onTap: state.onSearchPressed,
