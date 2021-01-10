@@ -55,7 +55,7 @@ class SearchPokemonDelegate extends SearchDelegate
   Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: Icon(Icons.keyboard_arrow_left),
-      onPressed: () => Navigator.pop(context)
+      onPressed: () => this.close(context, null)
     );
   }
 
@@ -66,9 +66,8 @@ class SearchPokemonDelegate extends SearchDelegate
       return Container();
     }
 
-    query = query.toLowerCase();
-    query.replaceAll(' ', '');
-    
+    query = query.replaceAll(' ', '')..toLowerCase();
+
     if(pokemonTypes.contains(query)){ 
       return FutureBuilder<List<String>>(
       future: _searchProvider.getPokemonsByType(query),
@@ -120,7 +119,33 @@ class SearchPokemonDelegate extends SearchDelegate
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return Container();
+
+    if(query.length < 3) {
+      return Container();
+    }
+
+    List<String> suggestions = List();
+    String myQuery = query.replaceAll(' ', '')..toLowerCase();
+
+    _searchProvider.suggestionList.forEach((pokemonName) {
+      pokemonName = pokemonName.toLowerCase();
+      if(pokemonName.contains(myQuery)) {
+        suggestions.add(pokemonName);
+      }
+    });
+    
+    return ListView.separated(
+      separatorBuilder: (contex, index) => Divider(),
+      itemCount: suggestions.length,
+      itemBuilder: (context, index) => ListTile(
+        leading: Icon(Icons.search),
+        title: Text(suggestions[index]),
+        onTap: () {
+          query = suggestions[index].replaceAll(new RegExp(r"\s+"), "");
+          showResults(context);
+        },
+      )
+    );
   }
 
   Widget _buildError(BuildContext context) {
