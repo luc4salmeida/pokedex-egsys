@@ -10,6 +10,7 @@ import 'package:pokedex_egsys/widgets/base_view.dart';
 
 import '../controller/home.dart';
 
+
 class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
   HomeScreenView(HomeScreenController state) : super(state);
 
@@ -18,7 +19,7 @@ class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
     return Scaffold(
       body: _buildBody(context),
       appBar: AppBar(
-        title: Text("Egsys Pokedex"),
+        title: Text("egSYS Pokedex"),
         centerTitle: true,
       ),
     );
@@ -39,19 +40,23 @@ class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
             ],
           ),
         ),
-        state.isSearchingForPokemon ? Positioned.fill(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: 5,
-              sigmaY: 5
-            ),
-            child: Container(
-              color: Colors.black.withOpacity(0)
-            )
-          )
-        ) : SizedBox(),
+        state.isSearchingForPokemon ? _buildBlur(context) : SizedBox(),
         state.isSearchingForPokemon ? _buildSearchingForPokemon(context) : SizedBox(),
       ],
+    );
+  }
+
+  Widget _buildBlur(BuildContext context) {
+    return Positioned.fill(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(
+          sigmaX: 5,
+          sigmaY: 5
+        ),
+        child: Container(
+          color: Colors.black.withOpacity(0)
+        )
+      )
     );
   }
 
@@ -134,7 +139,7 @@ class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
     return Center(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.white70,
           borderRadius: BorderRadius.circular(10.0)
         ),
         padding: EdgeInsets.all(20.0),
@@ -143,7 +148,7 @@ class HomeScreenView extends WidgetView<HomeScreen, HomeScreenController> {
           children: [
             CircularProgressIndicator(),
             SizedBox(height: 10.0),
-            Text("Procurando um pokémon legal pra você ;)", style: MyTypography.MEDIUM.get().copyWith(color: Colors.grey))
+            Text("Procurando um pokémon legal pra você ;)", style: MyTypography.MEDIUM.get().copyWith(color: MyColors.BLACK.get()))
           ],
         ),
       ),
