@@ -7,6 +7,42 @@ ThemeData brightTheme = ThemeData(
   textTheme: GoogleFonts.openSansTextTheme()
 );
 
+const Map<String, Color> TYPE_COLORS = {
+  "normal": Colors.orange,
+  "fightning": Colors.brown,
+  "flying": Colors.teal,
+  "poison": Colors.deepPurple,
+  "ground": Colors.brown,
+  "rock": Colors.grey,
+  "bug": Colors.lime,
+  "ghost": Colors.purple,
+  "steel": Colors.blueGrey,
+  "fire": Colors.red,
+  "water": Colors.blue,
+  "grass": Colors.green,
+  "electric": Colors.yellow,
+  "ice": Colors.cyan,
+  "dragon": Colors.cyan,
+  "dark": Colors.deepPurple,
+  "fairy": Colors.pink
+};
+
+enum MyColors {
+  BLACK
+}
+
+extension MyColorsPallet on MyColors
+{
+  Color get() {
+    switch(this) {
+      case MyColors.BLACK:
+        return Color(0xFFFF2b292c);
+      default:
+        return Colors.white;  
+    }
+  }
+}
+
 
 enum MyTypography {
   SMALL,
@@ -14,7 +50,7 @@ enum MyTypography {
   BIG
 }
 
-extension Pallet on MyTypography
+extension MyTypographyPallet on MyTypography
 {
   TextStyle get() {
     switch(this) {

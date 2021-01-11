@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex_egsys/helpers.dart';
 import 'package:pokedex_egsys/style.dart';
 import '../controller/pokemon.dart';
 
@@ -9,11 +8,12 @@ import 'package:pokedex_egsys/widgets/base_view.dart';
 class PokemonScreenView
     extends WidgetView<PokemonScreen, PokemonScreenController> {
   PokemonScreenView(PokemonScreenController state) : super(state);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(child: _buildBody(context)),
-      backgroundColor: Color(0xFFFF2b292c)
+      backgroundColor: MyColors.BLACK.get(),
     );
   }
 
@@ -33,7 +33,6 @@ class PokemonScreenView
             _buildPokemonWeightAndHeight(context),
             SizedBox(height: 10.0),
             _buildStatsColumn(context)
- 
           ],
         )
       ],
@@ -47,7 +46,7 @@ class PokemonScreenView
         (e) => Container(
 
           decoration: BoxDecoration(
-            color: typeColors[e],
+            color: TYPE_COLORS[e],
             borderRadius: BorderRadius.all(Radius.circular(10.0))
           ),
           child: Padding(
@@ -164,7 +163,7 @@ class PokemonScreenView
         Container(
           height: 200.0,
           decoration: BoxDecoration(
-            color: typeColors[widget.data.types.first],
+            color: TYPE_COLORS[widget.data.types.first],
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(50.0),
               bottomRight: Radius.circular(50.0),
