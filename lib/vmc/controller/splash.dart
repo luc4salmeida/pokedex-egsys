@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_egsys/core/search_provider.dart';
+import 'package:pokedex_egsys/vmc/model/splash.dart';
 
 import '../view/splash.dart';
 import 'package:provider/provider.dart';
-
-import 'package:flutter/services.dart' show rootBundle;
 
 class SplashScreen extends StatefulWidget {
 
@@ -16,14 +15,13 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenController extends State<SplashScreen> {
 
-  SearchProvider _searchProvider;
+  SplashModel model;
 
   @override
   void initState() {
     super.initState();
-
-    _searchProvider = context.read<SearchProvider>();
-    _startMockDelay();
+    model = SplashModel(context.read<SearchProvider>());
+    _init();
   }
 
   @override
@@ -31,19 +29,11 @@ class SplashScreenController extends State<SplashScreen> {
     super.dispose();
   }
 
-  _startMockDelay() async {
-    await Future.delayed(
-      Duration(seconds: 3)
-    );
+  _init() async {
+    //Mock delay
+    await Future.delayed(Duration(seconds: 3));
 
-    String pokemonList = await rootBundle.loadString("assets/pokemon_list.txt");
-    List<String> pokemonsName = pokemonList.split('\n');
-
-    String typesList = await rootBundle.loadString("assets/types_list.txt");
-    List<String> typesName = typesList.split('\n');
-    
-    _searchProvider.addSuggestionsToList(pokemonsName);
-    _searchProvider.addSuggestionsToList(typesName);
+    await model.loadSuggestions();
 
     Navigator.pushReplacementNamed(context, 'home');
   }
