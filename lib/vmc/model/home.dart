@@ -11,25 +11,23 @@ const FETCH_AMMOUNT = 5;
 
 class HomeModel
 {
-  SearchProvider _searchProvider;
-
-  int _currentOffset;
   ValueNotifier<List<String>> pokemonNames;
 
+  SearchProvider _searchProvider;
+  int _currentOffset;
   List<PokemonData> _cachedPokemons;
 
   HomeModel({@required SearchProvider provider}) {
-
-    _searchProvider = provider;
     pokemonNames = ValueNotifier(List());
-    _cachedPokemons = List();
-
+    _searchProvider = provider;
     _currentOffset = 0;
+    _cachedPokemons = List();
   }
 
   dispose() {
     pokemonNames.dispose();
     _cachedPokemons.clear();
+    _currentOffset = 0;
   }
 
   Future<void> getPokemonsOnRange(bool initial) async {
@@ -44,11 +42,9 @@ class HomeModel
     _currentOffset += fetchAmmount;
   }
 
-  Future<PokemonData> getPokemonByName(String name) async {
-    return await _searchProvider.getPokemonByName(name);
-  }
+  Future<PokemonData> getPokemonByName(String name) async => 
+    await _searchProvider.getPokemonByName(name);
 
-  Future<PokemonData> getRandomPokemon() async {
-    return await _searchProvider.getRandomPokemon();
-  }
+  Future<PokemonData> getRandomPokemon() async =>
+    await _searchProvider.getRandomPokemon();
 }
